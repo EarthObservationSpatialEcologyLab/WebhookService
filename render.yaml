@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: webhook-service
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    port: 8000
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: CA_CERT
+        sync: false
