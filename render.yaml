@@ -9,3 +9,5 @@ services:
         sync: false
       - key: CA_CERT
         sync: false
+      - key: WEBHOOK_SECRET
+        sync: false
