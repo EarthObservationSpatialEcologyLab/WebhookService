@@ -1,0 +1,9 @@
+services:
+  webhook:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      CA_CERT: ${CA_CERT}
+    restart: unless-stopped
