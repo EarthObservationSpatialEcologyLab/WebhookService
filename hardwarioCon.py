@@ -2,4 +2,6 @@ import dbCon
 
 
 def process(payload: dict):
-    dbCon.insert_hardwario_message(payload)
+    print("Gate 2")
+    if "attribute" in payload.keys():
+        dbCon.insert_hardwario_message(payload)
