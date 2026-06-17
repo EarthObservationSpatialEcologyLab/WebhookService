@@ -4,19 +4,34 @@ I chose to go with a standalone service as it doesn't necessarily fit into the r
 
 <img width="382" height="283" alt="image" src="https://github.com/user-attachments/assets/396345be-ab6d-4020-b36b-6c6667494d92" />
 
-## main.py
-Home of the endpoints, currently only offloads logic to helpers.
-
-## hardwarioCon.py : hardwario connector helper
-Currently a passthrough as no logic is needed with the current development webhook setup (June 16, 2026).
-
-## bluesCon.py : placeholder file for future endpoint logic handling
-Not yet integrated.
-
-## dbCon.py : Postgres connector helper
-Contains the environment variable calls for the db and a method to insert the JSON directly into a raw input table.```env
+## Quick Start
+To start the service, first create a `.env` file with the following contents:
+```env
   DATABASE_URL=postgresql://user:pass@host:port/db?sslmode=verify-ca
   CA_CERT=<contents of ca.pem>
+  WEBHOOK_SECRET=<secret>
+
+```
+Then:
+`docker compose up --build`
+
+The service will then be started at the port specified in the docker files.
+
+*Note* The easiest way to expose to the internet was using the service [Render](https://render.com/)
+
+## Components
+
+### main.py
+Home of the endpoints, currently only offloads logic to helpers.
+
+### hardwarioCon.py : hardwario connector helper
+Currently a passthrough as no logic is needed with the current development webhook setup (June 16, 2026).
+
+### bluesCon.py : placeholder file for future endpoint logic handling
+Not yet integrated.
+
+### dbCon.py : Postgres connector helper
+Contains the environment variable calls for the db and a method to insert the JSON directly into a raw input table.
 
 ## TODO:
 - [ ]   Add docker compose reference in main dashboard (IoTDashboardFrontendBackend)
