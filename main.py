@@ -1,8 +1,16 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request, Header
 import hardwarioCon
+import dbCon
 import os
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await dbCon.init_pool()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 WEBHOOK_SECRET = os.environ.get("WEBHOOK_SECRET")
 
@@ -20,7 +28,7 @@ async def handle_hardwario(request: Request, x_webhook_secret: str | None = Head
     print("Gate 1")
     payload = await request.json()
     try:
-        hardwarioCon.process(payload)
+        await hardwarioCon.process(payload)
     except KeyError as e:
         raise HTTPException(status_code=400, detail=f"Missing field: {e}")
     return {"status": "ok"}

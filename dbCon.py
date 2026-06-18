@@ -1,8 +1,8 @@
 import os
 import json
 import tempfile
-import psycopg2
 import base64
+import asyncpg
 
 DSN = os.environ.get("DATABASE_URL", "")
 
@@ -16,13 +16,18 @@ if _ca_cert and "sslrootcert" not in DSN:
     sep = "&" if "?" in DSN else "?"
     DSN += f"{sep}sslrootcert={_f.name}"
 
+_pool: asyncpg.Pool | None = None
 
-def insert_hardwario_message(payload: dict):
+
+async def init_pool():
+    global _pool
+    _pool = await asyncpg.create_pool(dsn=DSN, min_size=1, max_size=5)
+
+
+async def insert_hardwario_message(payload: dict):
+    assert _pool is not None
     print("Gate 3")
-    with psycopg2.connect(DSN) as conn:
-        with conn.cursor() as cur:
-            print("Ready to execute", payload)
-            cur.execute(
-                "INSERT INTO ods.hardwario_messages (raw_message_data) VALUES (%s)",
-                (json.dumps(payload),),
-            )
+    await _pool.execute(
+        "INSERT INTO ods.hardwario_messages (raw_message_data) VALUES ($1)",
+        json.dumps(payload),
+    )
