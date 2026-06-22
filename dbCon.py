@@ -54,6 +54,6 @@ async def insert_hardwario_message(payload: dict):
             return
 
     await _pool.execute(
-        "INSERT INTO ods.hardwario_messages (raw_message_data) VALUES ($1)",
+        "INSERT INTO ods.hardwario_messages (received_at, raw_message_data) VALUES (NOW(), $1)",
         json.dumps(payload),
     )
