@@ -1,21 +1,9 @@
 import os
 import json
 import logging
-import tempfile
-import base64
 import asyncpg
 
 DSN = os.environ.get("DATABASE_URL", "")
-
-# If CA_CERT env var is set, write it to a temp file
-# and append sslrootcert to the DSN so it works inside Docker without volume mounts.
-_ca_cert = base64.b64decode(os.environ.get("CA_CERT", "")).decode()
-if _ca_cert and "sslrootcert" not in DSN:
-    _f = tempfile.NamedTemporaryFile(delete=False, suffix=".pem", mode="w")
-    _f.write(_ca_cert)
-    _f.close()
-    sep = "&" if "?" in DSN else "?"
-    DSN += f"{sep}sslrootcert={_f.name}"
 
 _pool: asyncpg.Pool | None = None
 _known_station_ids: set[int] = set()

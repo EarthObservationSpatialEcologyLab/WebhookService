@@ -5,7 +5,6 @@ services:
       - "9000:9000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      CA_CERT: ${CA_CERT}
       WEBHOOK_SECRET: ${WEBHOOK_SECRET}
     restart: unless-stopped
 

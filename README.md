@@ -7,8 +7,7 @@ I chose to go with a standalone service as it doesn't necessarily fit into the r
 ## Quick Start
 To start the service, first create a `.env` file with the following contents:
 ```env
-  DATABASE_URL=postgresql://user:pass@host:port/db?sslmode=verify-ca
-  CA_CERT=<contents of ca.pem>
+  DATABASE_URL=postgres://user:pass@host:port/db?sslmode=require
   WEBHOOK_SECRET=<secret>
 
 ```

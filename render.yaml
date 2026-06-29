@@ -7,7 +7,5 @@ services:
     envVars:
       - key: DATABASE_URL
         sync: false
-      - key: CA_CERT
-        sync: false
       - key: WEBHOOK_SECRET
         sync: false
